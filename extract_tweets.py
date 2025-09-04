@@ -1,13 +1,15 @@
 import tweepy
 import json
+import os
+from dotenv import load_dotenv
 
-API_KEY = "KM2pdzDGPmc2doLxahhWk3mxT"
-API_SECRET_KEY = "4vZJKYIWm3J6IJ3P1XEJZpiIStosATzkau8m3s1PLViJBTADLu"
-BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAALWM3gEAAAAA2q6%2FT%2BwSgOhjjmML7bRltxde3pc%3DCWO1ME0gahzDnL1ZgXEEmkT1L1xjCJeUpUgOgCPoOAD4mUy9l4"
-ACCESS_TOKEN = "1668221004878086145-gXubcq1H44vL7e4nJpQvfipJqDP6hS"
-ACCESS_TOKEN_SECRET = "mxsgCkZV91nFv9kBDKeFrriybLgMei4lxWzwXdWGiVOcC"
+load_dotenv()  # take environment variables from .env.
 
-
+API_KEY = os.getenv("API_KEY")
+API_SECRET_KEY = os.getenv("API_SECRET_KEY")
+BEARER_TOKEN = os.getenv("BEARER_TOKEN")
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+ACCESS_TOKEN_SECRET = os.getenv("ACCESS_TOKEN_SECRET")
 
 if __name__ == "__main__":
     try:
