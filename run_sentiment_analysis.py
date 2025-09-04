@@ -7,7 +7,7 @@ from google import genai
 from google.genai import types
 
 
-GEMINI_API_KEY="AIzaSyCtbh2TRlZqnv0EFIJeL1RRwDOz6Y-VhBQ"
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 def execute_gemini_for_tweet_creation(prompt): #INFO: THIS IS FOR TWEET CREATION
     client = genai.Client(
