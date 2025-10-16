@@ -1,0 +1,177 @@
+AI CONENT GENERATOR
+
+meeting link :  https://meet.google.com/out-stwv-jne
+
+ollama 
+tweepy
+
+llm which makes tweets 
+
+we are extracting data from twitter via tweepy and then using gemini to analyze that data to make our llm
+
+20th August 2025
+Using Gemini to execute prompts => (how to execute ai prompts in our python program)
+
+21st August 2025
+Do sentiment analysis on the tweets
+
+23rd August 2025
+Fine tuning: when you want to speak a llm in a such a way (you can make llm that speaks like trump)
+
+25th August 2025
+Dumping tweets to json file
+
+26th August 2025
+Dumping 50 tweets to json file
+
+27th August 2025
+Refined training data
+Specialized/Nichce LLM
+code in mail:
+
+import json
+import time
+
+from analysis.run_prompt import execute_gemini
+
+with open("extracted_tweets.json") as extracted_tweets_file:
+    extracted_tweets = json.load(extracted_tweets_file)
+
+    analyzed_tweets = []
+
+    for tweet in extracted_tweets:
+        time.sleep(5)
+        sentiment_analysis_prompt = f"""
+            Tweet: {tweet["text"]}
+            like_count: {tweet["public_metrics"]["like_count"]}
+            retweet_count: {tweet["public_metrics"]["retweet_count"]}
+            reply_count: {tweet["public_metrics"]["reply_count"]}
+            impression_count: {tweet["public_metrics"]["impression_count"]}
+            Read the tweet with regard to its public reception and provide keywords and sentiment analysis score
+        """
+        out = execute_gemini(sentiment_analysis_prompt)
+        out_dict = json.loads(out)
+        print(out)
+        out_dict["tweet"] = tweet["text"]
+        analyzed_tweets.append(out)
+
+    with open("analyzed_tweets.json", "w") as analyzed_tweets_file:
+        json.dump(analyzed_tweets, analyzed_tweets_file)
+
+#shift+alt+f for formatting data to readable format
+
+FOR EMOJIS : with open("extracted_tweets.json", encoding="utf-8") as extracted_tweets_file:
+
+2nd September 2025
+
+inputs:
+top 5 first ==> from engagement type and analyzed_tweets.json (dict)
+prompt (str)
+both sit into the system prompt and sent to custom llm
+
+||PUSH YOUR CODE TO GITHUB||
+
+git add .
+git commit -m "init"
+git push --set-upstream origin main
+
+2 posts and which will perform more
+A/B testing
+
+sir, we are doing AB testing, where tweet A and tweet B are generated and those two tweets are compared with each other and the output tells which tweet performs better and also the explanation for it.
+
+Create a llm/ai which creates tweets for us 
+AI ops
+took models and made 2 tweets out of 2 models
+1 model to make tweet a, another model to make tweet b, another model to compare both tweets
+
+ml ops
+
+We are giving top5 tweets, tweet a and tweet b then we are getting ta vs tb prediction and explanation as output. 
+
+frontend : flask
+backend = business logic + connection to frontend
+
+17th September
+
+interface b/w browerser and pgm
+sending data from frontend to backend:
+via url
+via post request
+?: asking qtn to url
+cors policy = frontend and backend should have same orgin
+
+flask documentation link
+https://flask.palletsprojects.com/en/stable/quickstart/#a-minimal-application
+
+
+//MOCK PRESENTATION STEPS
+
+Step 1: (tweet extraction ==> we need twitter developer account for it) Used Tweepy to fetch tweets from a tech company via the Twitter API (extracted_tweets.json).
+
+Step 2: sentiment_analysis ==> (we analysed tweets ==> likes, retweet count, reply count, sentiment score, engagement score. we asked it to do engagement analysis (why this tweet performs well?)) Performed sentiment analysis on those tweets using the Gemini API (analyzed_tweets.json).
+
+Step 3: Selected the top 5 tweets based on engagement score.
+
+Step 4: Used Gemini API to generate 2 new tweets, compared them, and predicted which would perform better (with explanation).
+
+Step 5: Built a Flask backend to take a prompt, generate tweets, and provide prediction/explanation.
+
+Step 6: Created a UI for user engagement.
+
+runPrompt send prompt to backend and generate results
+
+aim: create an ai content marketing optimizer 
+
+what is unique? : we extracted tweets from niche industries (amazon, flipkart) similar industry we can sell to them, chatgpt is generalized but my tweet is trained for niche (our llm model is niche model that is for marketing trained on the industries you're targeting) target industry ==> xiaomi (consumer electronics market), amazon (ecommerce) 
+
+error 500 ==> backend prb
+error 404 ==> page not found
+24th sep:
+send anal. tweets to llm that got converted to speacialaised llm/niche llm (not general llm) create better posts because of training data
+
+step 1+2 ==> training data extraction
+i/p twitter api & handle
+o/p tweet analysis, analyzed_tweets.json
+
+step 3 (gemini - flash - lite - 2.5 model) ==> building the llm ==> select top 5 tweets from analysed tweets
+
+system prompt ==> user prompt + content + instructions
+
+system prompt is combined with base llm (gemini) 
+
+25th sep
+extract tweets and give it to llm and ask for a sentiment score
+system prompt ==> context = our tweet(analysed tweets), instruction = how we want 
+now we have specialasied llm
+
+phase 3: same niche llm used to create 2 tweets 
+writing another prompt for comparing the A,B tweets for AB testing and getting a prediction of which tweet will do better
+sending A, B tweets to another llm for prediction 
+flask is basically a interface for create_tweet.py and index.html
+
+26th sep:
+
+INTERACTING W LLM:
+whenever we want to interact with llm we use prompt
+
+WHY SELECTING ONLY TOP 5 TWEETS?:
+phase 2 ==> instead of sending 50 tweets inside llm we sent only 5 tweets  because there is token limit (single shot model) another reason : instead of sending llm low engagement tweet we give less amount of data by selecting top 5 tweets.
+
+client id: d1FweS10UDgxaW5ZcjZ2UEdtQ2w6MTpjaQ
+client secret: elKfTDL6KxZY2suJ-2sgfztJJNA8Xt3QgArrSaSio8VZWOWO18
+
+why tweepy, twitter, python
+
+AI-Based Automated Content Marketing Optimizer
+
+google: https://docs.google.com/presentation/d/1mdC3d2pPiJlYv9LG_ZeQgBNouiZpb_PEYoqc7vX6qQU/edit?slide=id.p#slide=id.p
+Microsoft: 
+https://1drv.ms/p/c/19ef3bc477156bf0/Eb4fa1hBCxVLsVooQH9Qh8IBCOjOXRWcAanbA_ec8_iCQw?e=gJOOEs&nav=eyJzSWQiOjI1NiwiY0lkIjozNDExMDc0NDYzfQ
+
+aim: creating a tool for marketing people/ to create a niche LLM for tweet generation.
+for company
+what is demographic, who will use this for what
+a better way to promote an existing product
+how ? our ai learns the patterns on the previous successful tweets and trains from it for our niche case
+which llm: gemini based models, flask 

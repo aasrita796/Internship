@@ -5,7 +5,7 @@ from run_sentiment_analysis import execute_gemini
 with open("extracted_tweets.json") as extracted_tweets_file:
     extracted_tweets = json.load(extracted_tweets_file)
 
-    analyzed_tweets = []
+    analyzed_tweets = [] #list of analysed tweets
 
     for tweet in extracted_tweets:
         sentiment_analysis_prompt = f"""
@@ -17,10 +17,10 @@ with open("extracted_tweets.json") as extracted_tweets_file:
             Read the tweet with regard to its public reception and provide keywords and sentiment analysis score
         """
         out = execute_gemini(sentiment_analysis_prompt)
-        out_dict = json.loads(out)
+        out_dict = json.loads(out) #converting json string to dictionary in python
         print(out)
-        out_dict["tweet"] = tweet["text"]
-        analyzed_tweets.append(out) #out_dict
+        out_dict["tweet"] = tweet["text"] #adding a new key to the dictionary
+        analyzed_tweets.append(out) #out_dict  #append the dictionary to the list
 
     with open("analyzed_tweets.json", "w") as analyzed_tweets_file:
-        json.dump(analyzed_tweets, analyzed_tweets_file)
+        json.dump(analyzed_tweets, analyzed_tweets_file) #dumping the list of dictionaries to a json file

@@ -9,12 +9,59 @@ from google.genai import types
 
 GEMINI_API_KEY="AIzaSyCtbh2TRlZqnv0EFIJeL1RRwDOz6Y-VhBQ"
 
-def execute_gemini_for_tweet_creation(prompt): #INFO: THIS IS FOR TWEET CREATION
+def execute_gemini_for_tweet_prediction(prompt, model, thinking_budget=0): #INFO: THIS IS FOR TWEET CREATION
     client = genai.Client(
         api_key=GEMINI_API_KEY,
     )
 
-    model = "gemini-2.5-flash-lite"
+    #model = "gemini-2.5-flash-lite"
+    contents = [
+        types.Content( # user prompt (same as chat input)
+            role="user",
+            parts=[
+                types.Part.from_text(text=prompt),
+            ],
+        ),
+    ]
+    tools = [
+        # types.Tool(googleSearch=types.GoogleSearch()),
+    ]
+    generate_content_config = types.GenerateContentConfig(
+        thinking_config=types.ThinkingConfig(
+            thinking_budget=0,
+        ),
+        response_mime_type="application/json",
+        response_schema=genai.types.Schema(
+            type=genai.types.Type.OBJECT,
+            required=["tweet_a_vs_tweet_b", "prediction", "explanation"],
+            properties={
+                "tweet_a_vs_tweet_b": genai.types.Schema(
+                    type=genai.types.Type.STRING,
+                ),
+                "prediction": genai.types.Schema(
+                    type=genai.types.Type.STRING,
+                ),
+                "explanation": genai.types.Schema(
+                    type=genai.types.Type.STRING,
+                ),
+            },
+        ),
+    )
+
+    result = client.models.generate_content(
+        model=model,
+        contents=contents,
+        config=generate_content_config,
+    )
+
+    return result.text
+
+def execute_gemini_for_tweet_creation(prompt, model): #INFO: THIS IS FOR TWEET CREATION
+    client = genai.Client(
+        api_key=GEMINI_API_KEY,
+    )
+
+    #model = "gemini-2.5-flash-lite"
     contents = [
         types.Content( # user prompt (same as chat input)
             role="user",
