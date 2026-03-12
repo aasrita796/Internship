@@ -1,5 +1,3 @@
-#DOCUMENTAION
-
 # AI Content Generator
 
 ## Overview
